@@ -2,11 +2,27 @@
 <html>
   <head>
     <!-- inject:css -->
+    <link rel="stylesheet" href="../bower_components/angular-material/angular-material.min.css">
     <!-- endinject -->
   </head>
-  <body ng-app="MaterialApp">
+  <body ng-app="MaterialApp" layout="column" >
     <!-- inject:js -->
+    <script src="../bower_components/angular/angular.min.js"></script>
+    <script src="../bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="../bower_components/angular-aria/angular-aria.min.js"></script>
+    <script src="../bower_components/angular-material/angular-material.min.js"></script>
     <!-- endinject -->
+    <md-toolbar>
+      Toolbar
+    </md-toolbar>
+    <div class="container" layout="row" flex>
+      <md-sidenav md-is-locked-open="true" class="md-whiteframe-4dp">
+        Sidenav
+      </md-sidenav>
+      <md-content id="content" flex>
+        Content
+      </md-content>
+    </div>
     <script>
     angular.module('MaterialApp', ['ngMaterial'])
       .run(function(){

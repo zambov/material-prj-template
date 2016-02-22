@@ -16,8 +16,7 @@ var bases = {
 
 var paths = {
   scripts: ['src/**/*.js'],
-  styles: ['src/assets/css/**/*.css'],
-  fonts: ['src/assets/fonts/**/*.*'],
+  styles: ['src/assets/css/*.css'],
   dependencies: ['bower_components/**/*.*'],
   html: ['src/**/*.html'],
   images: ['src/assets/images/**/*.*'],
@@ -54,10 +53,10 @@ gulp.task('copy-html', ['clean'], function() {
  .pipe(gulp.dest(bases.dist));
 });
 
-gulp.task('copy-fonts', ['clean'], function() {
+gulp.task('copy-styles', ['clean'], function() {
   // Copy Fonts
   return gulp.src(paths.styles)
-  .pipe(gulp.dest(bases.dist + 'fonts'));
+  .pipe(gulp.dest(bases.dist + 'styles'));
 });
 
 gulp.task('copy-dependencies', ['clean'], function() {
@@ -72,7 +71,7 @@ gulp.task('copy-styles', ['clean'], function() {
   .pipe(gulp.dest(bases.dist + 'styles'));
 });
 
-gulp.task('copy', ['copy-html', 'copy-fonts', 'copy-dependencies', 'copy-styles']);
+gulp.task('copy', ['copy-html', 'copy-dependencies', 'copy-styles']);
 
 gulp.task('inject-lib', ['copy'], function injectLib(){
     return gulp.src('./dist/index.html')
@@ -81,15 +80,16 @@ gulp.task('inject-lib', ['copy'], function injectLib(){
         './dist/dependencies/angular-animate/angular-animate.min.js',
         './dist/dependencies/angular-aria/angular-aria.min.js',
         './dist/dependencies/angular-material/angular-material.min.js',
-        './dist/dependencies/angular-material/angular-material.min.css'
-      ], {
-          read: false
-      }),
-      { relative: true }
-    ))
+        './dist/dependencies/angular-material/angular-material.min.css',
+        './dist/styles/*.css'
+        ], {
+            read: false
+        }),
+        {
+           relative: true }
+        ))
       .pipe(gulp.dest('./dist'));
 });
-
 
 gulp.task('webserver', ['inject-lib'], function() {
   connect.server({
@@ -101,4 +101,8 @@ gulp.task('webserver', ['inject-lib'], function() {
 });
 
 gulp.task('default', ['clean', 'scripts', 'imagemin', 'copy', 'inject-lib']);
-gulp.task('serve', ['clean', 'scripts', 'imagemin', 'copy', 'inject-lib', 'webserver']);
+gulp.task('serve', ['clean', 'scripts', 'imagemin', 'copy', 'inject-lib', 'webserver'], function() {
+
+    gulp.watch(['./src/*.*'], ['default']);
+
+});
